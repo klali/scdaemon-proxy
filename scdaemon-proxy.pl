@@ -77,6 +77,8 @@ while(1) {
         logg("running '$op'");
       } elsif($r eq $pipe_out) {
         $op = undef;
+        $m =~ m/^([a-zA-Z]+)/;
+        logg("returning '$1'");
         $out = \*STDOUT;
       } elsif($r eq $pipe_err) {
         $out = \*STDERR;
