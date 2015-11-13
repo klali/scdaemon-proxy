@@ -1,1 +1,16 @@
-POC scdaemon proxy with alerting
+scdaemon-proxy
+==============
+
+Introduction
+------------
+
+This is a small proxy for scdaemon that alerts with notify-send on long-running
+operations.
+
+Usage
+-----
+
+ $ cat ~/.gnupg/gpg-agent.conf
+ enable-ssh-support
+ scdaemon-program /usr/local/bin/scdaemon-proxy.pl
+
