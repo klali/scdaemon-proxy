@@ -35,6 +35,7 @@ use IO::Select;
 use Symbol;
 
 my $bin = "/usr/lib/gnupg2/scdaemon --multi-server";
+my $debug = 0;
 
 sub logg($) {
   my $msg = shift;
@@ -55,7 +56,7 @@ my $op = 0;
 while(1) {
   my @ready = $s->can_read(1);
   if(!@ready and $op) {
-    logg("notifying!");
+    logg("notifying about '$op'");
     system("notify-send 'Crypto' 'Long running sc-operation: $op'");
     $op = undef;
   }
@@ -66,13 +67,14 @@ while(1) {
       die("input closed.");
     }
     foreach my $m (split(/\n/, $message)) {
-      logg("$m on $r");
+      logg("$m on $r") if $debug;
       $m .= "\n";
       my $out;
       if($r eq \*STDIN) {
         $out = $pipe_in;
         $m =~ m/^([a-zA-Z]+)/;
         $op = $1;
+        logg("running '$op'");
       } elsif($r eq $pipe_out) {
         $op = undef;
         $out = \*STDOUT;
